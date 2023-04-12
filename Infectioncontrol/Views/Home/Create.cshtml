@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "員工健康監測查詢";
+}
+
+<script>
+    $(document).ready(function ()
+    {
+        var apiurl = "http://localhost:3533/api/IC";
+        
+
+        function fnCreate()
+        {
+            var ans = confirm("確定要新增嗎?");
+            if (ans == true) {
+                var now = new Date();
+                var Datetimenow = now.getFullYear().toString()                     +
+                                  (now.getMonth() + 1).toString().padStart(2, '0') +
+                                  now.getDate().toString().padStart(2, '0')        +
+                                  now.getHours().toString().padStart(2, '0')       +
+                                  now.getMinutes().toString().padStart(2, '0')     +
+                                  now.getSeconds().toString().padStart(2, '0')     ;
+                var Workerid, Workername, Workerdepartment, Workertemperature, Cough, Diarrhea;
+
+                Workerid          = $("#Workerid").val();
+                Workername        = $("#Workername").val();
+                Workerdepartment  = $("#Workerdepartment").val();
+                Workertemperature = $("#Workertemperature").val();
+                Cough             = $("#Cough").val();
+                Diarrhea          = $("#Diarrhea").val();
+
+                var data = "?Datetimenow="        + Datetimenow       +
+                           "&Workerid="           + Workerid          +
+                           "&Workername="         + Workername        +
+                           "&Workerdepartment="   + Workerdepartment  +
+                           "&Workertemperature="  + Workertemperature +
+                           "&Cough="              + Cough             +
+                           "&Diarrhea="           + Diarrhea          ;
+
+            }
+
+            $.ajax({
+                url: apiurl + encodeURI(data),
+                type: 'POST',
+                success: function (result) {
+                    if (result != 0) {
+                        alert("新增成功");
+                        var url = "http://localhost:3533/Home/Create";
+                        window.location.href = url;
+                    }
+                    else
+                    {
+                        alert("新增失敗");
+                    }
+                }
+            })
+        }
+        $("#btnCreate").on("click", fnCreate);
+    });
+</script>
+@*<div class="panel-group">
+    <div class="panel-warning class">
+
+        <div class="panel-heading">員工資料</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label for="Workerid">員工編號</label>
+                <input type="text" class="form-control" id="Workerid" />
+            </div>
+            <div class="form-group">
+                <label for="Workername">員工姓名</label>
+                <input type="text" class="form-control" id="Workername" />
+            </div>
+            <div class="form-group">
+                <label for="Workerdepartment">員工部門</label>
+                <input type="text" class="form-control" id="Workerdepartment" />
+            </div>
+            <div class="form-group">
+                <label for="Workertemperature">體溫</label>
+                <input type="text" class="form-control" id="Workertemperature" />
+            </div>
+            <div class="form-group">
+                <label for="Cough">咳嗽</label>
+                <input type="text" class="form-control" id="Cough" />
+            </div>
+            <div class="form-group">
+                <label for="Diarrhea">腹瀉</label>
+                <input type="text" class="form-control" id="Diarrhea" />
+            </div>
+            <input type="button" value="新增" id="btnCreate" class="btn btn-primary" />
+        </div>
+
+    </div>
+</div>*@
+<br />
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-info">
+            <div class="panel-heading"><h2>員工資料</h2></div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="Workerid">員工編號</label>
+                    <input type="text" class="form-control" id="Workerid" />
+                </div>
+                <div class="form-group">
+                    <label for="Workername">員工姓名</label>
+                    <input type="text" class="form-control" id="Workername" />
+                </div>
+                <div class="form-group">
+                    <label for="Workerdepartment">員工部門</label>
+                    <input type="text" class="form-control" id="Workerdepartment" />
+                </div>
+                <div class="form-group">
+                    <label for="Workertemperature">體溫</label>
+                    <input type="text" class="form-control" id="Workertemperature" />
+                </div>
+                <div class="form-group">
+                    <label for="Cough">咳嗽</label>
+                    <input type="text" class="form-control" id="Cough" />
+                </div>
+                <div class="form-group">
+                    <label for="Diarrhea">腹瀉</label>
+                    <input type="text" class="form-control" id="Diarrhea" />
+                </div>
+                <input type="button" value="新增" id="btnCreate" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</div>
+

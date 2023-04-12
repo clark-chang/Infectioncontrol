@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "員工健康監測查詢";
+}
+<script>
+    $(document).ready(function ()
+    {
+        var apiurl = "http://localhost:3533/api/IC";
+
+        function getalldata()
+        {
+            $.ajax({
+                url: apiurl,
+                type: 'GET',
+                success: function (data)
+                {
+                    $('#ictable').empty();
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        $('#ictable').append
+                            (
+                                "<tr>" +
+                                "<td>" + data[i].Datetimenow        + "</td>" +
+                                "<td>" + data[i].Workerid           + "</td>" +
+                                "<td>" + data[i].Workername         + "</td>" +
+                                "<td>" + data[i].Workerdepartment   + "</td>" +
+                                "<td>" + data[i].Workertemperature  + "</td>" +
+                                "<td>" + data[i].Cough              + "</td>" +
+                                "<td>" + data[i].Diarrhea           + "</td>" +
+                                "<td><input type='button' value='選取' id='btnSelect" + i + "' class='btn btn-info'/></td>" +
+                                "</tr>"
+                        );
+                        $('#btnSelect' + i).on("click", {
+                            Datetimenow: data[i].Datetimenow,
+                            Workerid: data[i].Workerid,
+                            Workername:data[i].Workername,
+                            Workerdepartment:data[i].Workerdepartment,
+                            Workertemperature:data[i].Workertemperature,
+                            Cough:data[i].Cough,
+                            Diarrhea:data[i].Diarrhea
+                        }, fnSelectdata)
+                    }
+                }
+            });
+        }
+
+
+        function fnSelectdata(event) {
+            
+            var Datetimenow = event.data.Datetimenow;
+            var Workerid = event.data.Workerid;
+            var Workername = event.data.Workername;
+            var Workerdepartment = event.data.Workerdepartment;
+            var Workertemperature = event.data.Workertemperature;
+            var Cough = event.data.Cough;
+            var Diarrhea = event.data.Diarrhea;
+
+            var data = "?Datetimenow="         + Datetimenow       +
+                       "&Workerid="            + Workerid          +
+                       "&Workername="          + Workername        +
+                       "&Workerdepartment="    + Workerdepartment  +
+                       "&Workertemperature="   + Workertemperature +
+                       "&Cough="               + Cough             +
+                       "&Diarrhea="            + Diarrhea          ;
+
+
+            var url = "http://localhost:3533/Home/EditAndDelete" + data;
+            window.location.href = url;
+        }
+        getalldata();
+    });
+</script>
+<br />
+<br />
+<table class="table">
+    <tr>
+        <th>日期</th>
+        <th>員編</th>
+        <th>姓名</th>
+        <th>部門</th>
+        <th>體溫</th>
+        <th>咳嗽</th>
+        <th>腹瀉</th>
+        <th>處理資料</th>
+    </tr>
+    <tbody id="ictable"></tbody>
+</table>
+
+
+
+
+
